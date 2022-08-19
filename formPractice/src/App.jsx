@@ -1,8 +1,4 @@
 import React, { Component } from "react";
-// wire up form so it works
-// use concept of controlled form
-// reactjs.org/docs/forms.html
-// corsework.vschool.io/travel-form/
 
 class App extends Component {
   constructor() {
@@ -10,111 +6,114 @@ class App extends Component {
     this.state = {
       firstName: "",
       lastName: "",
-      Age: "",
+      gender: "",
+      location: "",
+      age: "",
+      dietaryRestrictions: {
+        isVegan: false,
+        isKosher: false,
+        isLactoseFree: false
+      }
     };
     this.handleChange = this.handleChange.bind(this);
   }
 
   handleChange(event) {
-    const { name, value, type, checked } = event.target;
-
-    type === "checkbox"
-      ? this.setState({ [name]: checked })
-      : this.setState({ [name]: value });
+    const { name, value, type, checked } = event.target
+    type === "checkbox" ?
+       this.setState(prevState => {
+        return { 
+         dietaryRestrictions: {
+          ...prevState.dietaryRestrictions,
+        [name]: checked 
+      }
+    }
+    }) :
+       this.setState({ 
+        [name]: value 
+      });
   }
 
   render() {
     return (
-      <form onSubmit={this.handleSubmit}>
-        <input
-          type="text"
-          value={this.state.firstName}
-          name="firstName"
-          placeholder="First Name"
-          onChange={this.handleChange}
-        />
-        <br />
-        <input
-          type="text"
-          value={this.state.lastName}
-          name="lastName"
-          placeholder="Last Name"
-          onChange={this.handleChange}
-        />
-        <br />
-        <input
-          type="text"
-          value={this.state.Age}
-          name="Age"
-          placeholder="Age"
-          onChange={this.handleChange}
-        />
-        <br />
-        <label>
+      <main>
+        <form>
           <input
-            type="radio"
-            name="gender"
-            value="male"
-            checked={this.state.gender === "male"}
+            type="text"
+            value={this.state.firstName}
+            name="firstName"
+            placeholder="First Name"
             onChange={this.handleChange}
           />
-          Male
-        </label>
-        <br />
-        <label>
+          <br />
           <input
-            type="radio"
-            name="gender"
-            value="female"
-            checked={this.state.gender === "female"}
+            type="text"
+            value={this.state.lastName}
+            name="lastName"
+            placeholder="Last Name"
             onChange={this.handleChange}
           />
-          Female
-        </label>
-        <br />
-        <label>
+          <br />
           <input
-            type="radio"
-            name="gender"
-            value="Dog"
-            checked={this.state.gender === "Dog"}
+            type="text"
+            value={this.state.age}
+            name="age"
+            placeholder="Age"
             onChange={this.handleChange}
           />
-          Dog
-        </label>
-        <br />
+          <br />
+          <label>
+            <input
+              type="radio"
+              name="gender"
+              value="male"
+              checked={this.state.gender === "male"}
+              onChange={this.handleChange}
+            />
+            Male
+          </label>
+          <br />
+          <label>
+            <input
+              type="radio"
+              name="gender"
+              value="female"
+              checked={this.state.gender === "female"}
+              onChange={this.handleChange}
+            />
+            Female
+          </label>
+          <br />
+          <label>Location : </label>
+          <select
+            value={this.state.location}
+            onChange={this.handleChange}
+            name="location"
+          >
+            <option value="">Chose Location</option>
+            <option value="Italy">Italy</option>
+            <option value="Spain">Spain</option>
+            <option value="Netherlands">Netherlands</option>
+            <option value="New Zeland">New Zeland</option>
+            <option value="Switzerland">Switzerland</option>
+          </select>
+          <br />
+     
+          
+          <button className="btn">Submit</button>
+          <hr />
+          <label>Entered Information : </label>
+          <br />
+          <p>Your Name : {this.state.firstName} {this.state.lastName}</p>
+          <p>Your Age : {this.state.age}</p>
+          <p>You are a {this.state.gender}</p>
+          <p>Your location is {this.state.location}</p>
+       
 
-        <label>Location: </label>
-        {/*formik*/}
-        <select
-          value={this.state.location}
-          onChange={this.handleChange}
-          name="location"
-        >
-          <option value={"Pastaland"}>italy</option>
-          <option value={"Pain"}>Spain</option>
-          <option value={"Switzerland"}>Switzerland</option>
-          <option value={"Weedland"}>Deutchland</option>
-          <option value={"America, fuck yeah"}>USA</option>
-          <option value={"mooseland"}>Canada</option>
-        </select>
-        <br />
-        <hr />
-        <br />
-        <h2>Entered information:</h2>
-
-        <p>
-          Your name: {this.state.firstName} {this.state.lastName}
-        </p>
-
-        <p>Your Age: {this.state.Age}</p>
-
-        <p>gender: {this.state.gender}</p>
-
-        <p> you live in... {this.state.location}</p>
-
-        <button>Submit</button>
-      </form>
+     
+         
+        </form>
+      </main>
     );
   }
 }
